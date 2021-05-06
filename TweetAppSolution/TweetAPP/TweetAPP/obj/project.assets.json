@@ -6244,20 +6244,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\844993\\.nuget\\packages\\": {}
+    "C:\\Users\\User\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\844993\\source\\repos\\TweetAppSolution_CASESTUDY\\TweetAppSolution\\TweetAPP\\TweetAPP\\TweetAPP.csproj",
+      "projectUniqueName": "C:\\Users\\User\\Case study\\TWEET\\TweetAppSolution\\TweetAPP\\TweetAPP\\TweetAPP.csproj",
       "projectName": "TweetAPP",
-      "projectPath": "C:\\Users\\844993\\source\\repos\\TweetAppSolution_CASESTUDY\\TweetAppSolution\\TweetAPP\\TweetAPP\\TweetAPP.csproj",
-      "packagesPath": "C:\\Users\\844993\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\844993\\source\\repos\\TweetAppSolution_CASESTUDY\\TweetAppSolution\\TweetAPP\\TweetAPP\\obj\\",
+      "projectPath": "C:\\Users\\User\\Case study\\TWEET\\TweetAppSolution\\TweetAPP\\TweetAPP\\TweetAPP.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\Case study\\TWEET\\TweetAppSolution\\TweetAPP\\TweetAPP\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "C:\\Users\\844993\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
@@ -6268,6 +6273,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -6279,6 +6285,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",
@@ -6329,7 +6336,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

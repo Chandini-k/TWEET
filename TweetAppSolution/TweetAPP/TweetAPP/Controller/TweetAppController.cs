@@ -91,7 +91,7 @@ namespace TweetAPP.Controller
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Error occured while login user");
+                this.logger.LogError(ex, $"Error occured while user login");
                 throw;
             }
         }
@@ -134,7 +134,7 @@ namespace TweetAPP.Controller
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Error occured while Deleteing user tweet");
+                this.logger.LogError(ex, $"Error occured while Deleting user tweet");
                 throw;
             }
         }
@@ -144,7 +144,7 @@ namespace TweetAPP.Controller
         /// </summary>
         /// <returns>response.</returns>
         [HttpGet]
-        [Route("users/all")]
+        [Route("users/allusers")]
         public async Task<IActionResult> GetAllUsers()
         {
             try
@@ -185,7 +185,7 @@ namespace TweetAPP.Controller
         /// </summary>
         /// <returns>response.</returns>
         [HttpGet]
-        [Route("all")]
+        [Route("allTweets")]
         public async Task<IActionResult> GetAllTweets()
         {
             try
@@ -274,7 +274,7 @@ namespace TweetAPP.Controller
         /// <param name="password">password.</param>
         /// <returns>response.</returns>
         [HttpPut]
-        [Route("forgot/{emailId},{password}")]
+        [Route("forgotpassword/{emailId},{password}")]
         public async Task<IActionResult> ForgotPassword(string emailId, string password)
         {
             try

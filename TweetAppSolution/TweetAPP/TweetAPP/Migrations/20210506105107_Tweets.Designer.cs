@@ -10,8 +10,8 @@ using TweetAPP.Models;
 namespace TweetAPP.Migrations
 {
     [DbContext(typeof(TweetDBContext))]
-    [Migration("20210501074451_tweet")]
-    partial class tweet
+    [Migration("20210506105107_Tweets")]
+    partial class Tweets
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,6 +30,9 @@ namespace TweetAPP.Migrations
 
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TweetId")
                         .HasColumnType("int");

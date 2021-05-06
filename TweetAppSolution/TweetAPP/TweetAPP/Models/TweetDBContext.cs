@@ -48,7 +48,7 @@ namespace TweetAPP.Models
         /// <param name="optionsBuilder">optionsBuilder.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           optionsBuilder.UseSqlServer(@"Data Source=LTIN233231\SQLEXPRESS;Initial Catalog=TweetDB;Persist Security Info=True;User ID=sa;Password=password-1");
+           optionsBuilder.UseSqlServer(@"Data Source=Lab-63752363777;Initial Catalog=TweetDB;Persist Security Info=True;User ID=sa;Password=password-1");
         }
     }
 }

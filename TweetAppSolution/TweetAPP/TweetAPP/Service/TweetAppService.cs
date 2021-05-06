@@ -78,7 +78,7 @@ namespace TweetAPP.Service
                 }
                 else
                 {
-                    message = "Failed";
+                    message = "Failed to change password";
                 }
 
                 return message;
@@ -197,11 +197,11 @@ namespace TweetAPP.Service
                 var result = await this.tweetRepository.PostTweet(tweet);
                 if (result > 0)
                 {
-                    message = "Posted";
+                    message = "Tweet Posted Successfully";
                 }
                 else
                 {
-                    message = "Error occured";
+                    message = "Error occured while posting the tweet";
                 }
 
                 return message;
@@ -295,11 +295,11 @@ namespace TweetAPP.Service
                         var result = await this.tweetRepository.Register(users);
                         if (result > 0)
                         {
-                            message = "Successfully registerd";
+                            message = "User Registered successfully";
                         }
                         else
                         {
-                            message = "Registration failed";
+                            message = "User Registration failed";
                         }
                     }
                     else
@@ -357,7 +357,7 @@ namespace TweetAPP.Service
                 var result = await this.tweetRepository.DeleteTweet(username, tweet);
                 if (result>0)
                 {
-                    return message = "Deleted";
+                    return message = "Tweet Deleted";
                 }
                 else
                 {
