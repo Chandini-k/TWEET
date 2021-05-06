@@ -4,6 +4,7 @@
 
 namespace TweetAPP.Service
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using TweetAPP.Models;
@@ -14,19 +15,19 @@ namespace TweetAPP.Service
     public interface ITweetAppService
     {
         /// <summary>
-        /// UserRegister.
+        /// Register.
         /// </summary>
         /// <param name="users">users.</param>
         /// <returns>response.</returns>
-        Task<string> UserRegister(User users);
+        Task<string> Register(User users);
 
         /// <summary>
-        /// UserLogin.
+        /// Login.
         /// </summary>
-        /// <param name="emailId">emailId.</param>
+        /// <param name="Username">emailId.</param>
         /// <param name="password">password.</param>
         /// <returns>response.</returns>
-        Task<User> UserLogin(string emailId, string password);
+        Task<User> UserLogin(string Username, string password);
 
         /// <summary>
         /// GetAllTweets.
@@ -74,17 +75,42 @@ namespace TweetAPP.Service
         /// <summary>
         /// Likes.
         /// </summary>
-        /// <param name="count">count.</param>
-        /// <param name="userid">userid.</param>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
         /// <returns>response.</returns>
-        Task<bool> Likes(int count, int userid);
+        Task<int> Likes(string username, string tweet);
+
+        /// <summary>
+        /// Likes.
+        /// </summary>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
+        /// <returns>response.</returns>
+        Task<List<UserComments>> GetComments(string username, string tweet);
 
         /// <summary>
         /// Comments.
         /// </summary>
         /// <param name="comment">comment.</param>
-        /// <param name="userid">userid.</param>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
         /// <returns>response.</returns>
-        Task<bool> Comments(string comment, int userid);
+        Task<int> Comments(string comment, string username, string userName, string tweet);
+
+        /// <summary>
+        /// DeleteTweet.
+        /// </summary>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
+        /// <returns>response.</returns>
+        Task<string> DeleteTweet(string username, string tweet);
+
+        /// <summary>
+        /// GetUserProfile.
+        /// </summary>
+        /// <param name="username">username.</param>
+        /// <returns>response.</returns>
+        Task<User> GetUserProfile(string username);
+
     }
 }

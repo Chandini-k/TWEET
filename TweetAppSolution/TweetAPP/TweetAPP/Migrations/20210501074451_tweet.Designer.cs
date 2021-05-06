@@ -10,8 +10,8 @@ using TweetAPP.Models;
 namespace TweetAPP.Migrations
 {
     [DbContext(typeof(TweetDBContext))]
-    [Migration("20210326105401_TweetAppDB")]
-    partial class TweetAppDB
+    [Migration("20210501074451_tweet")]
+    partial class tweet
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,6 +21,29 @@ namespace TweetAPP.Migrations
                 .HasAnnotation("ProductVersion", "5.0.4")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("TweetAPP.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TweetId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TweetId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("TweetAPP.Models.Tweet", b =>
                 {
                     b.Property<int>("Id")
@@ -28,11 +51,26 @@ namespace TweetAPP.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Likes")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TweetDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Tweets")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -48,8 +86,9 @@ namespace TweetAPP.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("DOB")
-                        .HasColumnType("Date");
+                    b.Property<string>("ContactNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("EmailId")
                         .IsRequired()
@@ -59,8 +98,7 @@ namespace TweetAPP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gender")
-                        .IsRequired()
+                    b.Property<string>("ImageName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -70,20 +108,41 @@ namespace TweetAPP.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId");
 
                     b.ToTable("User");
                 });
 
+            modelBuilder.Entity("TweetAPP.Models.Comment", b =>
+                {
+                    b.HasOne("TweetAPP.Models.Tweet", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("TweetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TweetAPP.Models.Tweet", b =>
                 {
-                    b.HasOne("TweetAPP.Models.User", "User")
-                        .WithMany()
+                    b.HasOne("TweetAPP.Models.User", null)
+                        .WithMany("Tweet")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("User");
+            modelBuilder.Entity("TweetAPP.Models.Tweet", b =>
+                {
+                    b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("TweetAPP.Models.User", b =>
+                {
+                    b.Navigation("Tweet");
                 });
 #pragma warning restore 612, 618
         }

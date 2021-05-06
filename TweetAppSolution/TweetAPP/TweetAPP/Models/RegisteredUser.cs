@@ -18,5 +18,15 @@ namespace TweetAPP.Models
         /// Gets or Sets LastName.
         /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ImageName.
+        /// </summary>
+        public string ImageName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Username.
+        /// </summary>
+        public string Username { get; set; }
     }
 }

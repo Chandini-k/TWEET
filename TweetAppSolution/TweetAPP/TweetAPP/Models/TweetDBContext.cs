@@ -38,12 +38,17 @@ namespace TweetAPP.Models
         public DbSet<Tweet> Tweets { get; set; }
 
         /// <summary>
+        /// Gets or sets TweetData.
+        /// </summary>
+        public DbSet<Comment> Comments { get; set; }
+
+        /// <summary>
         /// OnConfiguring.
         /// </summary>
         /// <param name="optionsBuilder">optionsBuilder.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-           optionsBuilder.UseSqlServer(@"Data Source=LTIN233231\SQLEXPRESS;Initial Catalog=TweetAppDB;Persist Security Info=True;User ID=sa;Password=password-1");
+           optionsBuilder.UseSqlServer(@"Data Source=LTIN233231\SQLEXPRESS;Initial Catalog=TweetDB;Persist Security Info=True;User ID=sa;Password=password-1");
         }
     }
 }

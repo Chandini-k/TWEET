@@ -23,5 +23,10 @@ namespace TweetAPP.Models
         /// Gets or Sets UserId.
         /// </summary>
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Username.
+        /// </summary>
+        public string Username { get; set; }
     }
 }

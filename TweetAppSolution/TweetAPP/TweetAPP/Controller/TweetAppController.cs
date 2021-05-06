@@ -54,7 +54,7 @@ namespace TweetAPP.Controller
         {
             try
             {
-                var result = await this.tweetAppService.UserRegister(user);
+                var result = await this.tweetAppService.Register(user);
                 return this.Ok(result);
             }
             catch (Exception ex)
@@ -71,16 +71,16 @@ namespace TweetAPP.Controller
         /// <param name="password">password.</param>
         /// <returns>response.</returns>
         [HttpGet]
-        [Route("login/{emailId},{password}")]
-        public async Task<IActionResult> Login(string emailId, string password)
+        [Route("login/{username},{password}")]
+        public async Task<IActionResult> Login(string username, string password)
         {
             try
             {
                 Token token = null;
-                var result = await this.tweetAppService.UserLogin(emailId, password);
+                var result = await this.tweetAppService.UserLogin(username, password);
                 if (result != null)
                 {
-                    token = new Token() { UserId = result.UserId, Tokens = this.GenerateJwtToken(emailId), Message = "Success" };
+                    token = new Token() { UserId = result.UserId, Username = result.Username, Tokens = this.GenerateJwtToken(username), Message = "Success" };
                 }
                 else
                 {
@@ -113,6 +113,28 @@ namespace TweetAPP.Controller
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Error occured while posting user tweet");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Delete Tweet.
+        /// </summary>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
+        /// <returns>response.</returns>
+        [HttpDelete]
+        [Route("tweetdelete/{username},{tweet}")]
+        public async Task<IActionResult> DeleteTweet(string username, string tweet)
+        {
+            try
+            {
+                var result = await this.tweetAppService.DeleteTweet(username, tweet);
+                return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Error occured while Deleteing user tweet");
                 throw;
             }
         }
@@ -179,6 +201,50 @@ namespace TweetAPP.Controller
         }
 
         /// <summary>
+        /// Get All Comments.
+        /// </summary>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
+        /// <returns>response.</returns>
+        [HttpGet]
+        [Route("allcomments/{username},{tweet}")]
+        public async Task<IActionResult> GetAllComments(string username, string tweet)
+        {
+            try
+            {
+                var result = await this.tweetAppService.GetComments(username, tweet);
+                return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Error occured while fetching user comments");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// GetUserProfile.
+        /// </summary>
+        /// <param name="username">username.</param>
+        /// <returns>response.</returns>
+        [HttpGet]
+        [Route("user/{username}")]
+        public async Task<IActionResult> GetUserProfile(string username)
+        
+       {
+            try
+            {
+                var result = await this.tweetAppService.GetUserProfile(username);
+                return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Error occured while fetching user");
+                throw;
+            }
+        }
+
+        /// <summary>
         /// UpdatePassword.
         /// </summary>
         /// <param name="emailId">emailId.</param>
@@ -186,7 +252,7 @@ namespace TweetAPP.Controller
         /// <param name="newPassword">newPassword.</param>
         /// <returns>response.</returns>
         [HttpPut]
-        [Route("update")]
+        [Route("update/{emailId},{oldpassword},{newpassword}")]
         public async Task<IActionResult> UpdatePassword(string emailId, string oldpassword, string newPassword)
         {
             try
@@ -208,7 +274,7 @@ namespace TweetAPP.Controller
         /// <param name="password">password.</param>
         /// <returns>response.</returns>
         [HttpPut]
-        [Route("forgot")]
+        [Route("forgot/{emailId},{password}")]
         public async Task<IActionResult> ForgotPassword(string emailId, string password)
         {
             try
@@ -224,18 +290,20 @@ namespace TweetAPP.Controller
         }
 
         /// <summary>
-        /// PostComment.
+        /// Comments.
         /// </summary>
         /// <param name="comment">comment.</param>
-        /// <param name="userid">userid.</param>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
+        /// <param name="date">date.</param>
         /// <returns>response.</returns>
-        [HttpPut]
-        [Route("reply")]
-        public async Task<IActionResult> PostComment(string comment, int userid)
+        [HttpPost]
+        [Route("reply/{comment},{username},{Name},{tweet}")]
+        public async Task<IActionResult> PostComment(string comment, string username, string Name, string tweet)
         {
             try
             {
-                var result = await this.tweetAppService.Comments(comment, userid);
+                var result = await this.tweetAppService.Comments(comment, username,Name, tweet);
                 return this.Ok(result);
             }
             catch (Exception ex)
@@ -248,21 +316,21 @@ namespace TweetAPP.Controller
         /// <summary>
         /// Likes.
         /// </summary>
-        /// <param name="count">count.</param>
-        /// <param name="userid">userid.</param>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
         /// <returns>response.</returns>
-        [HttpPut]
-        [Route("likes")]
-        public async Task<IActionResult> PostLike(int count, int userid)
+        [HttpGet]
+        [Route("likes/{username},{tweet}")]
+        public async Task<IActionResult> GetLikes(string username, string tweet)
         {
             try
             {
-                var result = await this.tweetAppService.Likes(count, userid);
+                var result = await this.tweetAppService.Likes(username, tweet);
                 return this.Ok(result);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Error occured while posting user like");
+                this.logger.LogError(ex, $"Error occured while getting user like");
                 throw;
             }
         }
@@ -278,7 +346,7 @@ namespace TweetAPP.Controller
             };
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["JwtKey"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            /*recommended is 5 min*/
+            //recommended is 5 min
             var expires = DateTime.Now.AddDays(Convert.ToDouble(this.configuration["JwtExpireDays"]));
             var token = new JwtSecurityToken(
                 this.configuration["JwtIssuer"],

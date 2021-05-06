@@ -36,13 +36,16 @@ namespace TweetAPP.Service
         /// Comments.
         /// </summary>
         /// <param name="comment">comment.</param>
-        /// <param name="userid">userid.</param>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
+        /// <param name="date">date.</param>
         /// <returns>response.</returns>
-        public async Task<bool> Comments(string comment, int userid)
+        public async Task<int> Comments(string comment, string username, string userName, string tweet)
         {
             try
             {
-                var result = await this.tweetRepository.Comments(comment, userid);
+                DateTime date = DateTime.Now;
+                var result = await this.tweetRepository.Comments(comment, username, userName, tweet, date);
                 return result;
             }
             catch (Exception ex)
@@ -143,21 +146,40 @@ namespace TweetAPP.Service
         }
 
         /// <summary>
-        /// Likes.
+        /// GetUserProfile.
         /// </summary>
-        /// <param name="count">count.</param>
-        /// <param name="userid">userid.</param>
+        /// <param name="username">username.</param>
         /// <returns>response.</returns>
-        public async Task<bool> Likes(int count, int userid)
+        public async Task<User> GetUserProfile(string username)
         {
             try
             {
-                var result = await this.tweetRepository.Likes(count, userid);
+                var result = await this.tweetRepository.GetUserProfile(username);
                 return result;
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, $"Error occured while reseting password");
+                this.logger.LogError(ex, $"Error occured while retrieving user");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Likes.
+        /// </summary>
+        /// <param name="username">username.</param>
+        /// <param name="tweet">tweet.</param>
+        /// <returns>response.</returns>
+        public async Task<int> Likes(string username, string tweet)
+        {
+            try
+            {
+                var result = await this.tweetRepository.Likes(username, tweet);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Error occured while getting likes");
                 throw;
             }
         }
@@ -258,7 +280,7 @@ namespace TweetAPP.Service
         /// </summary>
         /// <param name="users">users.</param>
         /// <returns>response.</returns>
-        public async Task<string> UserRegister(User users)
+        public async Task<string> Register(User users)
         {
             try
             {
@@ -266,7 +288,7 @@ namespace TweetAPP.Service
                 {
                     string message = string.Empty;
                     var validate = await this.tweetRepository.ValidateEmailId(users.EmailId);
-                    var uservalidate = await this.tweetRepository.ValidateName(users.FirstName);
+                    var uservalidate = await this.tweetRepository.ValidateName(users.FirstName, users.Username);
                     if (validate == null && uservalidate == null)
                     {
                         users.Password = this.EncryptPassword(users.Password);
@@ -302,6 +324,49 @@ namespace TweetAPP.Service
             catch (Exception ex)
             {
                 this.logger.LogError(ex, $"Error occured while registering");
+                throw;
+            }
+        }
+
+        public async Task<List<UserComments>> GetComments(string username, string tweet)
+        {
+            try
+            {
+                var result = await this.tweetRepository.GetComments(username, tweet);
+                if (result != null)
+                {
+                    return result;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Error occured while comments");
+                throw;
+            }
+        }
+
+        public async Task<string> DeleteTweet(string username, string tweet)
+        {
+            try
+            {
+                string message = string.Empty;
+                var result = await this.tweetRepository.DeleteTweet(username, tweet);
+                if (result>0)
+                {
+                    return message = "Deleted";
+                }
+                else
+                {
+                    return message = "Failed to Delete";
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, $"Error occured while comments");
                 throw;
             }
         }

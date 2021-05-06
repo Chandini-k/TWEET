@@ -32,16 +32,16 @@ namespace TweetAPP.Models
         public string LastName { get; set; }
 
         /// <summary>
-        /// Gets or Sets Gender.
+        /// Gets or Sets ContactNumber.
         /// </summary>
         [Required]
-        public string Gender { get; set; }
+        public string ContactNumber { get; set; }
 
         /// <summary>
-        /// Gets or Sets DOB.
+        /// Gets or Sets Username.
         /// </summary>
-        [Column(TypeName = "Date")]
-        public DateTime DOB { get; set; }
+        [Required]
+        public string Username { get; set; }
 
         /// <summary>
         /// Gets or Sets EmailId.
@@ -59,5 +59,7 @@ namespace TweetAPP.Models
         /// Gets or Sets ImageName.
         /// </summary>
         public string ImageName { get; set; }
+
+        public IList<Tweet> Tweet { get; set; }
     }
 }
